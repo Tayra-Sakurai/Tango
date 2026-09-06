@@ -1,0 +1,67 @@
+name: Make a production release.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+        type: string
+        description: Set a tag.
+      previous-tag:
+        required: false
+        type: string
+        description: Select the previous tag.
+      environment:
+        required: true
+        description: Select the environment.
+        type: environment
+
+jobs:
+  build:
+    permissions:
+      contents: write
+
+    environment:
+      name: ${{ inputs.environment }}
+      deployment: false
+
+    runs-on: windows-latest
+
+    env:
+      SOLUTION_NAME: Tango
+
+    steps:
+      - name: Checkout the Repo
+        uses: actions/checkout@v7
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.x
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v3
+
+      - name: Decode the pfx
+        run: |
+          $pfx_cert_byte = [System.Convert]::FromBase64String("${{ secrets.SECRET_KEY }}")
+          $certificatePath = "${{ env.SOLUTION_NAME }}/GitHubActionsWorkflow.pfx"
+          [IO.File]::WriteAllBytes("$certificatePath", $pfx_cert_byte)
+
+      - name: Restore the Application
+        run: msbuild $env:SOLUTION_NAME /t:Restore /p:Configuration=Release /p:SelfContained=true /p:TargetFramework=net10.0-windows10.0.26100.0
+
+      - name: Build the App Package
+        run: msbuild $env:SOLUTION_NAME /p:Configuration=Release /p:Platform=x64 /p:UapAppxPackageBuildMode=SideloadOnly /p:AppxBundle=Always /p:PackageCertificateKeyFile=GitHubActionsWorkflow.pfx /p:GenerateAppxPackageOnBuild=true /p:SelfContained=true /p:TargetFramework=net10.0-windows10.0.26100.0 /p:GenerateAppxInstallerFile=true
+
+      - name: Remove the PFX
+        run: Remove-Item -path "${{ env.SOLUTION_NAME }}\GitHubActionsWorkflow.pfx"
+
+      - name: Make the release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: |
+            ${{ env.SOLUTION_NAME }}/**
+          tag_name: ${{ inputs.tag }}
+          previous_tag: ${{inputs.previous-tag }}
+          make_latest: true
+    

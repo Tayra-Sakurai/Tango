@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Tango (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Tango (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
