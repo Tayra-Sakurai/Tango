@@ -1,6 +1,9 @@
 // SPDX-LicenseCopyrightText: 2026 Tayra Sakurai
 // SPDX-License-Identifier: GPL-3.0-or-later
 using CommunityToolkit.Mvvm.DependencyInjection;
+using Maizuru.Contexts;
+using Maizuru.ViewModels;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.AI;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
@@ -11,6 +14,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using Microsoft.Windows.Storage;
 using OpenAI.Embeddings;
 using System;
 using System.Collections.Generic;
@@ -58,6 +62,7 @@ namespace Tango
         private static IServiceProvider GetService()
         {
             ServiceCollection services = new ServiceCollection();
+
             services.AddEmbeddingGenerator(
                 new EmbeddingClient(
                     model: "models/gemini-embedding-2",
@@ -67,6 +72,15 @@ namespace Tango
                         Endpoint = new("https://generativelanguage.googleapis.com/v1beta/openai"),
                     })
                 .AsIEmbeddingGenerator());
+            services.AddDbContextFactory<MaizuruContext>(
+                options => options
+                .UseSqlite($"Data Source={System.IO.Path.Join(ApplicationData.GetDefault().LocalFolder.Path, "Maizuru.db")}"));
+            services.AddTransient<CategoriesViewModel>();
+            services.AddTransient<CategoryViewModel>();
+            services.AddTransient<PaymentMethodsViewModel>();
+            services.AddTransient<PaymentMethodViewModel>();
+            services.AddTransient<ItemsViewModel>();
+            services.AddTransient<ItemViewModel>();
 
             return services.BuildServiceProvider();
         }
