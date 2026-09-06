@@ -75,5 +75,6 @@
     <PackageCertificateThumbprint>EE284096F83EF5D9CA96E129A9985CCD9A18979B</PackageCertificateThumbprint>
     <PackageCertificateKeyFile>Tango_TemporaryKey.pfx</PackageCertificateKeyFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
+    <DefaultLanguage>ja-JP</DefaultLanguage>
   </PropertyGroup>
 </Project>
