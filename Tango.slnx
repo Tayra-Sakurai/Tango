@@ -4,6 +4,9 @@
     <Platform Name="x64" />
     <Platform Name="x86" />
   </Configurations>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
   <Project Path="Maizuru/Maizuru.csproj" />
   <Project Path="Tango/Tango.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />

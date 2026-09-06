@@ -29,9 +29,16 @@ namespace Maizuru.Contexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>()
-                .Navigation(c => c.Categories)
-                .AutoInclude(true);
+            modelBuilder.Entity<Category>(
+                t =>
+                {
+                    t.Navigation(c => c.Categories)
+                    .AutoInclude();
+
+                    t.HasOne(c => c.ParentCategory)
+                    .WithMany(c => c.Categories)
+                    .OnDelete(DeleteBehavior.SetNull);
+                });
             modelBuilder.Entity<Item>();
             modelBuilder.Entity<PaymentMethod>();
         }

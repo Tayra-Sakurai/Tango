@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,6 +39,7 @@ namespace Maizuru.ViewModels
             await foreach (
                 Category category in
                 context.Categories
+                .Where(c => c.ParentCategoryId == null)
                 .AsAsyncEnumerable())
                 Categories.Add(category);
         }
@@ -76,6 +78,18 @@ namespace Maizuru.ViewModels
         private static bool CanInvoke(Category? category)
         {
             return category is not null;
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanInvoke))]
+        private async Task RemoveAsync(Category? category)
+        {
+            if (category is null)
+                return;
+
+            using MaizuruContext context = await factory.CreateDbContextAsync();
+            context.Remove(category);
+            await context.SaveChangesAsync();
+            await LoadAsync();
         }
     }
 }

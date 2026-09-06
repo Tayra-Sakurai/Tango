@@ -11,5 +11,7 @@ namespace Maizuru
     internal static class Constants
     {
         internal const int DIMENSIONS = 768;
+        internal const int MAX_CATEGORY_LEVELS = 10;
+        internal const float MATCH_BORDER_LINE = 0.75f;
     }
 }
