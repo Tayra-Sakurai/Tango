@@ -1,4 +1,9 @@
-﻿using Microsoft.UI.Xaml;
+// SPDX-LicenseCopyrightText: 2026 Tayra Sakurai
+// SPDX-License-Identifier: GPL-3.0-or-later
+using CommunityToolkit.Mvvm.DependencyInjection;
+using Microsoft.Extensions.AI;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -6,6 +11,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using OpenAI.Embeddings;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,6 +41,8 @@ namespace Tango
         public App()
         {
             InitializeComponent();
+
+            Ioc.Default.ConfigureServices(GetService());
         }
 
         /// <summary>
@@ -45,6 +53,22 @@ namespace Tango
         {
             _window = new MainWindow();
             _window.Activate();
+        }
+
+        private static IServiceProvider GetService()
+        {
+            ServiceCollection services = new ServiceCollection();
+            services.AddEmbeddingGenerator(
+                new EmbeddingClient(
+                    model: "models/gemini-embedding-2",
+                    credential: new System.ClientModel.ApiKeyCredential(Environment.GetEnvironmentVariable("GOOGLE_API_KEY") ?? throw new NotImplementedException()),
+                    options: new()
+                    {
+                        Endpoint = new("https://generativelanguage.googleapis.com/v1beta/openai"),
+                    })
+                .AsIEmbeddingGenerator());
+
+            return services.BuildServiceProvider();
         }
     }
 }
