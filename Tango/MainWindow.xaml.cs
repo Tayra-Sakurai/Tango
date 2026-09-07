@@ -99,7 +99,7 @@ namespace Tango
                     ],
                     Icon = new FontIcon
                     {
-                        Glyph = "\uE8C3",
+                        Glyph = "\uEBC3",
                     },
                 },
                 new()
@@ -111,7 +111,7 @@ namespace Tango
                     ],
                     Icon = new FontIcon
                     {
-                        Glyph = "\uEBC7",
+                        Glyph = "\uE8C7",
                     },
                 }];
         }
