@@ -14,6 +14,19 @@
     </Window.SystemBackdrop>
 
     <Grid>
+        <NavigationView
+            IsSettingsVisible="False"
+            x:Name="BaseNavigation"
+            MenuItemsSource="{x:Bind pageLinkItems}">
+            <NavigationView.MenuItemTemplate>
+                <DataTemplate x:DataType="local:PageLinkItem">
+                    <NavigationViewItem Content="{x:Bind LinkText}" Icon="{x:Bind Icon}"/>
+                </DataTemplate>
+            </NavigationView.MenuItemTemplate>
 
+            <Frame
+                x:Name="MainFrame"
+                Padding="36"/>
+        </NavigationView>
     </Grid>
 </Window>

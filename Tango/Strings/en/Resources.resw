@@ -132,6 +132,12 @@
   <data name="CategoryGuide.Text" xml:space="preserve">
     <value>Category</value>
   </data>
+  <data name="CategoryLink.Content" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="CategoryLink.Header" xml:space="preserve">
+    <value>Category</value>
+  </data>
   <data name="DateColumn.Header" xml:space="preserve">
     <value>Date</value>
   </data>
@@ -174,6 +180,12 @@
   <data name="ItemDetailDesc.Text" xml:space="preserve">
     <value>Check and edit the item.</value>
   </data>
+  <data name="ItemLink.Content" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="ItemLink.Header" xml:space="preserve">
+    <value>Item</value>
+  </data>
   <data name="LicenseNotice.Text" xml:space="preserve">
     <value>This App is released under GPL-3.0-or-later license.</value>
   </data>
@@ -200,6 +212,12 @@
   </data>
   <data name="PaymentMethodDetailDesc.Text" xml:space="preserve">
     <value>You can view and edit the payment method data.</value>
+  </data>
+  <data name="PaymentMethodLink.Content" xml:space="preserve">
+    <value>Payment Methods</value>
+  </data>
+  <data name="PaymentMethodLink.Header" xml:space="preserve">
+    <value>Payment Methods</value>
   </data>
   <data name="RemainderBox.Header" xml:space="preserve">
     <value>Remainder</value>
