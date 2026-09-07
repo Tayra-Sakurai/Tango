@@ -120,14 +120,35 @@
   <data name="AddButton.Label" xml:space="preserve">
     <value>追加</value>
   </data>
+  <data name="BalanceColumn.Header" xml:space="preserve">
+    <value>残高</value>
+  </data>
+  <data name="CategoryDetailDesc.Text" xml:space="preserve">
+    <value>分類の詳細を表示します。また、内容の編集もできます。</value>
+  </data>
   <data name="DetailButton.Label" xml:space="preserve">
     <value>詳細</value>
   </data>
   <data name="FilterButton.Label" xml:space="preserve">
     <value>絞り込み</value>
   </data>
+  <data name="IdColumn.Header" xml:space="preserve">
+    <value>ID</value>
+  </data>
   <data name="LicenseNotice.Text" xml:space="preserve">
     <value>このアプリケーションはGPLの規定の下で配布されています。</value>
+  </data>
+  <data name="ListViewPageDesc.Text" xml:space="preserve">
+    <value>一覧表示画面です。</value>
+  </data>
+  <data name="NameBox.Header" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="NameBox.PlaceholderText" xml:space="preserve">
+    <value>名称を入力</value>
+  </data>
+  <data name="NameColumn.Header" xml:space="preserve">
+    <value>名称</value>
   </data>
   <data name="RemoveButton.Label" xml:space="preserve">
     <value>削除</value>

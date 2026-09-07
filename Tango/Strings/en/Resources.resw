@@ -120,14 +120,35 @@
   <data name="AddButton.Label" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="BalanceColumn.Header" xml:space="preserve">
+    <value>Remainder</value>
+  </data>
+  <data name="CategoryDetailDesc.Text" xml:space="preserve">
+    <value>You can view and edit the content of the category.</value>
+  </data>
   <data name="DetailButton.Label" xml:space="preserve">
     <value>Detail</value>
   </data>
   <data name="FilterButton.Label" xml:space="preserve">
     <value>Filter</value>
   </data>
+  <data name="IdColumn.Header" xml:space="preserve">
+    <value>Identity</value>
+  </data>
   <data name="LicenseNotice.Text" xml:space="preserve">
     <value>This App is released under GPL-3.0-or-later license.</value>
+  </data>
+  <data name="ListViewPageDesc.Text" xml:space="preserve">
+    <value>Listing all items.</value>
+  </data>
+  <data name="NameBox.Header" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameBox.PlaceholderText" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="NameColumn.Header" xml:space="preserve">
+    <value>Name</value>
   </data>
   <data name="RemoveButton.Label" xml:space="preserve">
     <value>Remove</value>
