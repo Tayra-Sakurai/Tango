@@ -27,6 +27,7 @@
             Grid.Row="1"
             AutoGenerateColumns="False"
             IsReadOnly="True"
+            SelectionMode="Single"
             d:DataContext="{d:DesignInstance Type=models:PaymentMethod}"
             ItemsSource="{x:Bind viewModel.PaymentMethods}">
             <tv:TableView.Columns>

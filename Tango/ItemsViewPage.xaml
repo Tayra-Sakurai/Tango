@@ -30,6 +30,7 @@
             IsReadOnly="True"
             AutoGenerateColumns="False"
             Grid.Row="1"
+            SelectionMode="Single"
             d:DataContext="{d:DesignInstance Type=models:Item}"
             ItemsSource="{x:Bind viewModel.Items}">
             <tv:TableView.Columns>
