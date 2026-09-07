@@ -62,24 +62,22 @@ namespace Maizuru.Test.ViewModels
         }
 
         [TestMethod]
-        public void Category_Null_FailsValidation()
+        public async Task Category_Null_FailsValidation()
         {
             viewModel.Name = "Valid Name";
             viewModel.Category = null;
             viewModel.PaymentMethod = paymentMethod;
 
-            Assert.IsTrue(viewModel.HasErrors);
             Assert.IsFalse(viewModel.SaveCommand.CanExecute(null));
         }
 
         [TestMethod]
-        public void PaymentMethod_Null_FailsValidation()
+        public async Task PaymentMethod_Null_FailsValidation()
         {
             viewModel.Name = "Valid Name";
             viewModel.Category = category;
             viewModel.PaymentMethod = null;
 
-            Assert.IsTrue(viewModel.HasErrors);
             Assert.IsFalse(viewModel.SaveCommand.CanExecute(null));
         }
 

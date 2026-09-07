@@ -224,8 +224,9 @@ namespace Maizuru.ViewModels
                     if (value.Id != item.CategoryId)
                         item.CategoryId = value.Id;
 
-                    ValidateProperty(value);
+                    OnPropertyChanged();
                 }
+                ValidateProperty(value);
             }
         }
 
@@ -239,9 +240,9 @@ namespace Maizuru.ViewModels
                 {
                     if (value.Id != item.PaymentMethodId)
                         item.PaymentMethodId = value.Id;
-
-                    ValidateProperty(value);
+                    OnPropertyChanged();
                 }
+                ValidateProperty(value);
             }
         }
 

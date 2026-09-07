@@ -7,6 +7,7 @@ using Maizuru.Contexts;
 using Maizuru.Messages;
 using Maizuru.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -60,12 +61,12 @@ namespace Maizuru.ViewModels
             }
             else
             {
-                Category category2 = new()
-                {
-                    ParentCategoryId = category1.Id,
-                    ParentCategory = category1,
-                };
-                context.Add(category2);
+                EntityEntry<Category> entityEntry = context.Attach(category1);
+                await entityEntry
+                    .Collection(c => c.Categories)
+                    .LoadAsync();
+
+                category1.Categories.Add(new());
             }
             await context.SaveChangesAsync();
             await LoadAsync();
