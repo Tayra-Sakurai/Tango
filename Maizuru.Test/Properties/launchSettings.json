@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "Maizuru.Test (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "Maizuru.Test (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

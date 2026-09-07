@@ -40,6 +40,10 @@ namespace Maizuru.ViewModels
                 Category category in
                 context.Categories
                 .Where(c => c.ParentCategoryId == null)
+                .Include(c => c.Categories)
+                .ThenInclude(c => c.Categories)
+                .ThenInclude(c => c.Categories)
+                .ThenInclude(c => c.Categories)
                 .AsAsyncEnumerable())
                 Categories.Add(category);
         }

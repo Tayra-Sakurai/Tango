@@ -7,6 +7,12 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
   </Folder>
+  <Project Path="Maizuru.Test/Maizuru.Test.csproj" Id="0a0a771f-83b2-4476-9335-8a281cfadb38">
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+    <Deploy />
+  </Project>
   <Project Path="Maizuru/Maizuru.csproj" />
   <Project Path="Tango/Tango.csproj">
     <Platform Solution="*|ARM64" Project="ARM64" />

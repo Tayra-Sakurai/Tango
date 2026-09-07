@@ -145,14 +145,25 @@ namespace Maizuru.ViewModels
         public DateTimeOffset Date
         {
             get => item.DateTimeOffset - item.DateTimeOffset.TimeOfDay;
-            set => SetProperty(item.DateTimeOffset.Date, value.Date, item, SetDate, true);
+            set
+            {
+                DateTimeOffset dateOnly = value - value.TimeOfDay;
+                SetDate(item, value.Date);
+                OnPropertyChanged();
+                ValidateProperty(dateOnly, nameof(Date));
+            }
         }
 
         [CustomValidation(typeof(ItemViewModel), nameof(ValidateTime))]
         public TimeSpan Time
         {
             get => item.DateTimeOffset.TimeOfDay;
-            set => SetProperty(item.DateTimeOffset.TimeOfDay, value, item, SetTime, true);
+            set
+            {
+                SetTime(item, value);
+                OnPropertyChanged();
+                ValidateProperty(value, nameof(Time));
+            }
         }
 
         private static void SetDate(Item model, DateTime date)
@@ -169,7 +180,7 @@ namespace Maizuru.ViewModels
             model.DateTimeOffset += timeOfDay;
         }
 
-        private static ValidationResult? ValidateDate(DateTimeOffset dateTimeOffset, ValidationContext context)
+        public static ValidationResult? ValidateDate(DateTimeOffset dateTimeOffset, ValidationContext context)
         {
             ItemViewModel viewModel = (ItemViewModel)context.ObjectInstance;
             DateTimeOffset dateTimeOffset1 = dateTimeOffset;
@@ -182,7 +193,7 @@ namespace Maizuru.ViewModels
             return ValidationResult.Success;
         }
 
-        private static ValidationResult? ValidateTime(TimeSpan value, ValidationContext context)
+        public static ValidationResult? ValidateTime(TimeSpan value, ValidationContext context)
         {
             ItemViewModel itemViewModel = (ItemViewModel)context.ObjectInstance;
             DateTimeOffset dateTimeOffset = itemViewModel.Date - itemViewModel.Date.TimeOfDay;
@@ -198,14 +209,24 @@ namespace Maizuru.ViewModels
         public Category? Category
         {
             get => Categories.FirstOrDefault(c => c.Id == item.CategoryId);
-            set => SetProperty(item.CategoryId, value!.Id, item, (m, v) => m.CategoryId = v, true);
+            set
+            {
+                item.CategoryId = value?.Id ?? 0;
+                OnPropertyChanged();
+                ValidateProperty(value, nameof(Category));
+            }
         }
 
         [Required]
         public PaymentMethod? PaymentMethod
         {
             get => PaymentMethods.FirstOrDefault(p => p.Id == item.PaymentMethodId);
-            set => SetProperty(item.PaymentMethodId, value!.Id, item, (m, v) => m.PaymentMethodId = v, true);
+            set
+            {
+                item.PaymentMethodId = value?.Id ?? 0;
+                OnPropertyChanged();
+                ValidateProperty(value, nameof(PaymentMethod));
+            }
         }
 
         [Range(0, double.MaxValue)]
@@ -224,7 +245,7 @@ namespace Maizuru.ViewModels
             set => SetProperty(item.Expense, value, item, (m, v) => m.Expense = v, true);
         }
 
-        private static ValidationResult? ValidateIncome(double value, ValidationContext context)
+        public static ValidationResult? ValidateIncome(double value, ValidationContext context)
         {
             ItemViewModel viewModel = (ItemViewModel)context.ObjectInstance;
             if (value > 0 && viewModel.Expense > 0)
@@ -233,7 +254,7 @@ namespace Maizuru.ViewModels
             return ValidationResult.Success;
         }
 
-        private static ValidationResult? ValidateExpense(double value, ValidationContext context)
+        public static ValidationResult? ValidateExpense(double value, ValidationContext context)
         {
             ItemViewModel viewModel = (ItemViewModel)context.ObjectInstance;
             if (value > 0 && viewModel.Income > 0)

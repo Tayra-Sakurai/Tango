@@ -58,6 +58,9 @@ namespace Maizuru.ViewModels
             await foreach (
                 Category category in
                 context.Categories
+                .Include(c => c.Categories)
+                .ThenInclude(c => c.Categories)
+                .ThenInclude(c => c.Categories)
                 .Where(c => c.ParentCategoryId == null)
                 .AsAsyncEnumerable())
                 Categories.Add(category);
@@ -114,13 +117,19 @@ namespace Maizuru.ViewModels
                 {
                     category.ParentCategoryId = null;
                     OnPropertyChanged();
+                    ValidateProperty(null, nameof(ParentCategory));
                     return;
                 }
-                SetProperty(category.ParentCategoryId, value?.Id, category, (m, v) => m.ParentCategoryId = v, true);
+                if (category.ParentCategoryId != value?.Id)
+                {
+                    category.ParentCategoryId = value?.Id;
+                    OnPropertyChanged();
+                    ValidateProperty(value, nameof(ParentCategory));
+                }
             }
         }
 
-        private static ValidationResult? ValidateParent(Category? category, ValidationContext context)
+        public static ValidationResult? ValidateParent(Category? category, ValidationContext context)
         {
             if (category == null)
                 return ValidationResult.Success;
@@ -138,7 +147,7 @@ namespace Maizuru.ViewModels
                 Category parent = categories.Pop();
                 if (parent.ParentCategory is Category c)
                 {
-                    categories.Push(parent);
+                    categories.Push(c);
                     count++;
                 }
             }

@@ -32,9 +32,6 @@ namespace Maizuru.Contexts
             modelBuilder.Entity<Category>(
                 t =>
                 {
-                    t.Navigation(c => c.Categories)
-                    .AutoInclude();
-
                     t.HasOne(c => c.ParentCategory)
                     .WithMany(c => c.Categories)
                     .OnDelete(DeleteBehavior.SetNull);

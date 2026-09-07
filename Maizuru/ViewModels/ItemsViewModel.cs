@@ -65,6 +65,7 @@ namespace Maizuru.ViewModels
             foreach (
                 Item item in
                 context.Items
+                .AsEnumerable()
                 .OrderByDescending(i => i.DateTimeOffset)
                 .ThenBy(i => i.Id)
                 .ToList())
