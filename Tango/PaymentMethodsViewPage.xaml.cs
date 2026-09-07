@@ -2,6 +2,8 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
 using CommunityToolkit.Mvvm.DependencyInjection;
+using CommunityToolkit.Mvvm.Messaging;
+using Maizuru.Messages;
 using Maizuru.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -26,7 +28,7 @@ namespace Tango
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class PaymentMethodsViewPage : Page
+    public sealed partial class PaymentMethodsViewPage : Page, IRecipient<PaymentMethodInvokedMessage>
     {
         private PaymentMethodsViewModel? viewModel;
 
@@ -41,6 +43,20 @@ namespace Tango
 
             viewModel = Ioc.Default.GetRequiredService<PaymentMethodsViewModel>();
             await viewModel.LoadAsync();
+
+            WeakReferenceMessenger.Default.Register(this);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            WeakReferenceMessenger.Default.UnregisterAll(this);
+        }
+
+        public void Receive(PaymentMethodInvokedMessage message)
+        {
+            Frame.Navigate(typeof(PaymentMethodViewPage), message.Value);
         }
     }
 }

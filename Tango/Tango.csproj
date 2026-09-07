@@ -17,19 +17,12 @@
     <None Remove="CategoriesViewPage.xaml" />
     <None Remove="CategoryViewPage.xaml" />
     <None Remove="Copyright.xaml" />
+    <None Remove="ItemsViewPage.xaml" />
+    <None Remove="ItemViewPage.xaml" />
     <None Remove="PaymentMethodsViewPage.xaml" />
+    <None Remove="PaymentMethodViewPage.xaml" />
     <None Remove="Templates\ComboBoxTemplates.xaml" />
     <None Remove="Templates\TreeViewTemplates.xaml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Assets\SplashScreen.scale-200.png" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
-    <Content Include="Assets\Square150x150Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.scale-200.png" />
-    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
-    <Content Include="Assets\StoreLogo.png" />
-    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +55,21 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Maizuru\Maizuru.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ItemViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="ItemsViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="PaymentMethodViewPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="PaymentMethodsViewPage.xaml">

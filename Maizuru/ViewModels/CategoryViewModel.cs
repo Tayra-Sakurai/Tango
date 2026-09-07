@@ -131,6 +131,8 @@ namespace Maizuru.ViewModels
 
         public static ValidationResult? ValidateParent(Category? category, ValidationContext context)
         {
+            using MaizuruContext context1 = ((CategoryViewModel)context.ObjectInstance).factory.CreateDbContext();
+
             if (category == null)
                 return ValidationResult.Success;
 
@@ -145,6 +147,11 @@ namespace Maizuru.ViewModels
                     return new("Too many category level detected.");
 
                 Category parent = categories.Pop();
+
+                context1.Attach(parent)
+                    .Reference(c => c.ParentCategory)
+                    .Load();
+
                 if (parent.ParentCategory is Category c)
                 {
                     categories.Push(c);

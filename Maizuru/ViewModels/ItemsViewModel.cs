@@ -65,6 +65,9 @@ namespace Maizuru.ViewModels
             foreach (
                 Item item in
                 context.Items
+                .Include(x => x.Category)
+                .Include(x => x.PaymentMethod)
+                .AsSplitQuery()
                 .AsEnumerable()
                 .OrderByDescending(i => i.DateTimeOffset)
                 .ThenBy(i => i.Id)
@@ -75,6 +78,10 @@ namespace Maizuru.ViewModels
                 Category category in
                 context.Categories
                 .Where(c => c.ParentCategoryId == null)
+                .Include(c => c.Categories)
+                .ThenInclude(c => c.Categories)
+                .ThenInclude(c => c.Categories)
+                .ThenInclude(c => c.Categories)
                 .AsAsyncEnumerable())
                 Categories.Add(category);
 

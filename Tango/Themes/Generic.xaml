@@ -13,6 +13,7 @@
                             Header="{TemplateBinding Header}"
                             PlaceholderText="{TemplateBinding PlaceholderText}"
                             Text="{TemplateBinding Text}"
+                            AcceptsReturn="{TemplateBinding AcceptsReturn}"
                             Name="Box"/>
                         <TextBlock
                             Style="{StaticResource CaptionTextBlockStyle}"

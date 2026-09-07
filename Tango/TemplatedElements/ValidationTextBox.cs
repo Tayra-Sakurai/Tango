@@ -132,6 +132,18 @@ namespace Tango.TemplatedElements
             typeof(ValidationTextBox),
             new(default, OnNotifyDataErrorInfoPropertyChanged));
 
+        public bool AcceptsReturn
+        {
+            get => (bool)GetValue(AcceptsReturnProperty);
+            set => SetValue(AcceptsReturnProperty, value);
+        }
+
+        private readonly static DependencyProperty AcceptsReturnProperty = DependencyProperty.Register(
+            nameof(AcceptsReturn),
+            typeof(bool),
+            typeof(ValidationTextBox),
+            new(false));
+
         private void ShowValidationResult()
         {
             if (NotifyDataErrorInfo is not INotifyDataErrorInfo ||

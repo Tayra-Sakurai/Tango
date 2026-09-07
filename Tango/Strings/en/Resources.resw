@@ -123,17 +123,56 @@
   <data name="BalanceColumn.Header" xml:space="preserve">
     <value>Remainder</value>
   </data>
+  <data name="CategoryColumn.Header" xml:space="preserve">
+    <value>Category</value>
+  </data>
   <data name="CategoryDetailDesc.Text" xml:space="preserve">
     <value>You can view and edit the content of the category.</value>
   </data>
+  <data name="CategoryGuide.Text" xml:space="preserve">
+    <value>Category</value>
+  </data>
+  <data name="DateColumn.Header" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DatePicker.Header" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="DescBox.Header" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="DescBox.PlaceholderText" xml:space="preserve">
+    <value>Description</value>
+  </data>
   <data name="DetailButton.Label" xml:space="preserve">
     <value>Detail</value>
+  </data>
+  <data name="ExpenseBox.Header" xml:space="preserve">
+    <value>Expense</value>
+  </data>
+  <data name="ExpenseBox.PlaceholderText" xml:space="preserve">
+    <value>Please enter the expense.</value>
+  </data>
+  <data name="ExpenseColumn.Header" xml:space="preserve">
+    <value>Expense</value>
   </data>
   <data name="FilterButton.Label" xml:space="preserve">
     <value>Filter</value>
   </data>
   <data name="IdColumn.Header" xml:space="preserve">
     <value>Identity</value>
+  </data>
+  <data name="IncomeBox.Header" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="IncomeBox.PlaceholderText" xml:space="preserve">
+    <value>Enter the income.</value>
+  </data>
+  <data name="IncomeColumn.Header" xml:space="preserve">
+    <value>Income</value>
+  </data>
+  <data name="ItemDetailDesc.Text" xml:space="preserve">
+    <value>Check and edit the item.</value>
   </data>
   <data name="LicenseNotice.Text" xml:space="preserve">
     <value>This App is released under GPL-3.0-or-later license.</value>
@@ -150,6 +189,21 @@
   <data name="NameColumn.Header" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="NullCategoryTreeViewItem.Content" xml:space="preserve">
+    <value>No category</value>
+  </data>
+  <data name="PaymentMethodBox.Header" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="PaymentMethodColumn.Header" xml:space="preserve">
+    <value>Payment Method</value>
+  </data>
+  <data name="PaymentMethodDetailDesc.Text" xml:space="preserve">
+    <value>You can view and edit the payment method data.</value>
+  </data>
+  <data name="RemainderBox.Header" xml:space="preserve">
+    <value>Remainder</value>
+  </data>
   <data name="RemoveButton.Label" xml:space="preserve">
     <value>Remove</value>
   </data>
@@ -164,5 +218,11 @@
   </data>
   <data name="SyncButton.Label" xml:space="preserve">
     <value>Sync</value>
+  </data>
+  <data name="TimeColumn.Header" xml:space="preserve">
+    <value>Time</value>
+  </data>
+  <data name="TimePicker.Header" xml:space="preserve">
+    <value>Time</value>
   </data>
 </root>

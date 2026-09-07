@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock
@@ -36,9 +37,17 @@
             Property="Name"
             NotifyDataErrorInfo="{x:Bind viewModel}"/>
 
+        <te:ValidationTextBox
+            x:Uid="DescBox"
+            AcceptsReturn="True"
+            Property="Description"
+            NotifyDataErrorInfo="{x:Bind viewModel}"
+            Text="{x:Bind viewModel.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Grid.Row="3"/>
+
         <CommandBar
             DefaultLabelPosition="Bottom"
-            Grid.Row="3">
+            Grid.Row="4">
             <AppBarButton
                 Icon="Save"
                 x:Uid="SaveButton"
@@ -63,6 +72,6 @@
         </CommandBar>
 
         <local:Copyright
-            Grid.Row="4"/>
+            Grid.Row="5"/>
     </Grid>
 </Page>
