@@ -64,7 +64,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           files: |
-            ${{ env.SOLUTION_NAME }}/**
+            ${{ env.SOLUTION_NAME }}/AppPackages/**
           tag_name: ${{ inputs.tag }}
           previous_tag: ${{inputs.previous-tag }}
           make_latest: true
