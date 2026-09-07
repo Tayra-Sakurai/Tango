@@ -58,6 +58,11 @@ namespace Tango
             _window = new MainWindow();
             _window.Activate();
 
+            if (_window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+            {
+                presenter.Maximize();
+            }
+
             IDbContextFactory<MaizuruContext> factory = Ioc.Default.GetRequiredService<IDbContextFactory<MaizuruContext>>();
             using MaizuruContext context = await factory.CreateDbContextAsync();
             await context.Database.MigrateAsync();
