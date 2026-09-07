@@ -72,6 +72,8 @@ namespace Maizuru.ViewModels
             if (HasErrors)
                 return;
 
+            category.ParentCategory = ParentCategory;
+
             using MaizuruContext context = await factory.CreateDbContextAsync();
 
             context.Update(category);

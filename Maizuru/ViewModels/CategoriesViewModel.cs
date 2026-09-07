@@ -63,6 +63,7 @@ namespace Maizuru.ViewModels
                 Category category2 = new()
                 {
                     ParentCategoryId = category1.Id,
+                    ParentCategory = category1,
                 };
                 context.Add(category2);
             }

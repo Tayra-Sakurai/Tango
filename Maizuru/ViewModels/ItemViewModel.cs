@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -86,6 +87,9 @@ namespace Maizuru.ViewModels
         {
             if (HasErrors)
                 return;
+
+            item.PaymentMethod = PaymentMethod;
+            item.Category = Category;
 
             using MaizuruContext context = await factory.CreateDbContextAsync();
 
@@ -215,22 +219,38 @@ namespace Maizuru.ViewModels
             get => Categories.FirstOrDefault(c => c.Id == item.CategoryId);
             set
             {
-                item.CategoryId = value?.Id ?? 0;
-                OnPropertyChanged();
-                ValidateProperty(value, nameof(Category));
+                if (value is not null)
+                {
+                    if (value.Id != item.CategoryId)
+                        item.CategoryId = value.Id;
+
+                    ValidateProperty(value);
+                }
             }
         }
 
-        [Required]
+        [CustomValidation(typeof(ItemViewModel), nameof(NotNullValidation))]
         public PaymentMethod? PaymentMethod
         {
             get => PaymentMethods.FirstOrDefault(p => p.Id == item.PaymentMethodId);
             set
             {
-                item.PaymentMethodId = value?.Id ?? 0;
-                OnPropertyChanged();
-                ValidateProperty(value, nameof(PaymentMethod));
+                if (value is not null)
+                {
+                    if (value.Id != item.PaymentMethodId)
+                        item.PaymentMethodId = value.Id;
+
+                    ValidateProperty(value);
+                }
             }
+        }
+
+        public static ValidationResult? NotNullValidation(PaymentMethod? value, ValidationContext context)
+        {
+            if (value == null)
+                return new($"The property '{context.MemberName ?? string.Empty}' is required.");
+
+            return ValidationResult.Success;
         }
 
         [Range(0, double.MaxValue)]
