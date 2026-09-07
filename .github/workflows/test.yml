@@ -32,4 +32,4 @@ jobs:
         run: dotnet build Maizuru.Test/Maizuru.Test.csproj --no-restore /p:Configuration=Debug /p:Platform=x64
 
       - name: Run unit tests
-        run: dotnet test Maizuru.Test\bin\x64\Debug\net10.0-windows10.0.26100.0\win-x64\Maizuru.Test.dll --logger "console;verbosity=normal"
+        run: dotnet test Maizuru.Test\bin\x64\Debug\net10.0-windows10.0.26100.0\Maizuru.Test.dll --logger "console;verbosity=normal"
