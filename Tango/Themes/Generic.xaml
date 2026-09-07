@@ -1,0 +1,46 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Tango"
+    xmlns:local2="using:Tango.TemplatedElements">
+
+    <Style TargetType="local2:ValidationTextBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:ValidationTextBox">
+                    <StackPanel>
+                        <TextBox
+                            Header="{TemplateBinding Header}"
+                            PlaceholderText="{TemplateBinding PlaceholderText}"
+                            Text="{TemplateBinding Text}"
+                            Name="Box"/>
+                        <TextBlock
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource SystemErrorTextColor}"
+                            Name="Message"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="local2:ValidationNumberBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local2:ValidationNumberBox">
+                    <StackPanel>
+                        <NumberBox
+                            Header="{TemplateBinding Header}"
+                            Value="{TemplateBinding Value}"
+                            PlaceholderText="{TemplateBinding PlaceholderText}"
+                            Name="Box"/>
+                        <TextBlock
+                            Style="{StaticResource CaptionTextBlockStyle}"
+                            Foreground="{ThemeResource SystemErrorTextColor}"
+                            Name="Message"/>
+                    </StackPanel>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
