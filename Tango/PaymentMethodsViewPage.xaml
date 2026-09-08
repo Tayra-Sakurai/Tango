@@ -61,7 +61,7 @@
                                 x:Uid="RemoveConfirmButton"
                                 Style="{StaticResource AccentButtonStyle}"
                                 Command="{x:Bind viewModel.RemoveCommand}"
-                                CommandParameter="{Binding SelectedItem, ElementName=SuperTable}"/>
+                                CommandParameter="{x:Bind SuperTable.SelectedItem}"/>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>

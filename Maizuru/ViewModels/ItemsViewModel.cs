@@ -108,10 +108,10 @@ namespace Maizuru.ViewModels
             await LoadAsync();
         }
 
-        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemoveOrInvoke))]
-        private async Task RemoveAsync(Item? item)
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemove))]
+        private async Task RemoveAsync(object? param)
         {
-            if (item == null)
+            if (param is not Item item)
                 return;
 
             using MaizuruContext context = await dbContextFactory.CreateDbContextAsync();
@@ -121,7 +121,7 @@ namespace Maizuru.ViewModels
             await LoadAsync();
         }
 
-        [RelayCommand(CanExecute = nameof(CanRemoveOrInvoke))]
+        [RelayCommand(CanExecute = nameof(CanInvoke))]
         private static void Invoke(Item? item)
         {
             if (item == null)
@@ -130,9 +130,14 @@ namespace Maizuru.ViewModels
             WeakReferenceMessenger.Default.Send(new ItemInvokedMessage(item));
         }
 
-        private static bool CanRemoveOrInvoke(Item? item)
+        private static bool CanInvoke(Item? item)
         {
             return item is not null;
+        }
+
+        private static bool CanRemove(object? param)
+        {
+            return param is Item;
         }
 
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanFilter))]

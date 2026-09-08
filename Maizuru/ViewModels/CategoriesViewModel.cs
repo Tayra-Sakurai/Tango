@@ -98,7 +98,7 @@ namespace Maizuru.ViewModels
         }
 
         [RelayCommand(CanExecute = nameof(CanInvoke))]
-        private void Invoke(Category? category)
+        private static void Invoke(Category? category)
         {
             if (category is null)
                 return;
@@ -111,10 +111,15 @@ namespace Maizuru.ViewModels
             return category is not null;
         }
 
-        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanInvoke))]
-        private async Task RemoveAsync(Category? category)
+        private static bool CanRemove(object? param)
         {
-            if (category is null)
+            return param is Category;
+        }
+
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemove))]
+        private async Task RemoveAsync(object? param)
+        {
+            if (param is not Category category)
                 return;
 
             using MaizuruContext context = await factory.CreateDbContextAsync();

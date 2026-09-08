@@ -46,7 +46,7 @@
                             <Button
                                 Style="{StaticResource AccentButtonStyle}"
                                 Command="{x:Bind viewModel.RemoveCommand}"
-                                CommandParameter="{Binding SelectedItem, ElementName=CategoriesView}"
+                                CommandParameter="{x:Bind CategoriesView.SelectedItem}"
                                 x:Uid="RemoveConfirmButton"/>
                         </StackPanel>
                     </Flyout>

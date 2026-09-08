@@ -54,9 +54,9 @@ namespace Maizuru.ViewModels
         }
 
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemove))]
-        private async Task RemoveAsync(PaymentMethod? paymentMethod)
+        private async Task RemoveAsync(object? param)
         {
-            if (paymentMethod == null)
+            if (param is not PaymentMethod paymentMethod)
                 return;
 
             using MaizuruContext context = await factory.CreateDbContextAsync();
@@ -65,12 +65,17 @@ namespace Maizuru.ViewModels
             await LoadAsync();
         }
 
-        private static bool CanRemove(PaymentMethod? paymentMethod)
+        private static bool CanInvoke(PaymentMethod? paymentMethod)
         {
-            return paymentMethod is not null;
+            return paymentMethod != null;
         }
 
-        [RelayCommand(CanExecute = nameof(CanRemove))]
+        private static bool CanRemove(object? paymentMethod)
+        {
+            return paymentMethod is PaymentMethod;
+        }
+
+        [RelayCommand(CanExecute = nameof(CanInvoke))]
         private static void Invoke(PaymentMethod? paymentMethod)
         {
             if (paymentMethod == null)
