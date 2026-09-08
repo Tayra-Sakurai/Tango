@@ -75,7 +75,8 @@ namespace Maizuru.Test.ViewModels
                 await context.SaveChangesAsync();
             }
 
-            await viewModel.AddCommand.ExecuteAsync(parent);
+            viewModel.Category = parent;
+            await viewModel.AddCommand.ExecuteAsync(null);
 
             using (MaizuruContext context = factory.CreateDbContext())
             {
@@ -94,8 +95,10 @@ namespace Maizuru.Test.ViewModels
                 this,
                 (r, m) => received = m);
 
-            Assert.IsTrue(viewModel.InvokeCommand.CanExecute(cat));
-            viewModel.InvokeCommand.Execute(cat);
+            viewModel.Category = cat;
+
+            Assert.IsTrue(viewModel.InvokeCommand.CanExecute(null));
+            viewModel.InvokeCommand.Execute(null);
 
             Assert.IsNotNull(received);
             Assert.AreEqual("Target", received.Value.Name);
@@ -104,6 +107,7 @@ namespace Maizuru.Test.ViewModels
         [TestMethod]
         public void InvokeCommand_WithNull_CannotExecute()
         {
+            viewModel.Category = null;
             Assert.IsFalse(viewModel.InvokeCommand.CanExecute(null));
         }
 
@@ -120,7 +124,8 @@ namespace Maizuru.Test.ViewModels
             await viewModel.LoadAsync();
             Assert.AreEqual(1, viewModel.Categories.Count);
 
-            await viewModel.RemoveCommand.ExecuteAsync(cat);
+            viewModel.Category = cat;
+            await viewModel.RemoveCommand.ExecuteAsync(null);
 
             Assert.AreEqual(0, viewModel.Categories.Count);
             using (MaizuruContext context = factory.CreateDbContext())

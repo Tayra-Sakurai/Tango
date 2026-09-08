@@ -118,7 +118,8 @@ namespace Maizuru.Test.ViewModels
             await viewModel.LoadAsync();
             Assert.AreEqual(1, viewModel.Items.Count);
 
-            await viewModel.RemoveCommand.ExecuteAsync(viewModel.Items[0]);
+            viewModel.Item = viewModel.Items[0];
+            await viewModel.RemoveCommand.ExecuteAsync(null);
 
             Assert.AreEqual(0, viewModel.Items.Count);
         }
@@ -133,11 +134,20 @@ namespace Maizuru.Test.ViewModels
                 this,
                 (r, m) => received = m);
 
-            Assert.IsTrue(viewModel.InvokeCommand.CanExecute(item));
-            viewModel.InvokeCommand.Execute(item);
+            viewModel.Item = item;
+
+            Assert.IsTrue(viewModel.InvokeCommand.CanExecute(null));
+            viewModel.InvokeCommand.Execute(null);
 
             Assert.IsNotNull(received);
             Assert.AreEqual("Coffee", received.Value.Name);
+        }
+
+        [TestMethod]
+        public void InvokeCommand_WithNull_CannotExecute()
+        {
+            viewModel.Item = null;
+            Assert.IsFalse(viewModel.InvokeCommand.CanExecute(null));
         }
 
         [TestMethod]

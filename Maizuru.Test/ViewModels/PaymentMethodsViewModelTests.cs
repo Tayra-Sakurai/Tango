@@ -85,7 +85,8 @@ namespace Maizuru.Test.ViewModels
             await viewModel.LoadAsync();
             Assert.AreEqual(1, viewModel.PaymentMethods.Count);
 
-            await viewModel.RemoveCommand.ExecuteAsync(pm);
+            viewModel.PaymentMethod = pm;
+            await viewModel.RemoveCommand.ExecuteAsync(null);
 
             Assert.AreEqual(0, viewModel.PaymentMethods.Count);
             using MaizuruContext verifyContext = factory.CreateDbContext();
@@ -102,8 +103,10 @@ namespace Maizuru.Test.ViewModels
                 this,
                 (r, m) => received = m);
 
-            Assert.IsTrue(viewModel.InvokeCommand.CanExecute(pm));
-            viewModel.InvokeCommand.Execute(pm);
+            viewModel.PaymentMethod = pm;
+
+            Assert.IsTrue(viewModel.InvokeCommand.CanExecute(null));
+            viewModel.InvokeCommand.Execute(null);
 
             Assert.IsNotNull(received);
             Assert.AreEqual("Suica", received.Value.Name);
@@ -112,6 +115,7 @@ namespace Maizuru.Test.ViewModels
         [TestMethod]
         public void InvokeCommand_WithNull_CannotExecute()
         {
+            viewModel.PaymentMethod = null;
             Assert.IsFalse(viewModel.InvokeCommand.CanExecute(null));
         }
     }
