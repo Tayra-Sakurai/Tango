@@ -88,8 +88,8 @@ namespace Maizuru.ViewModels
             if (HasErrors)
                 return;
 
-            item.PaymentMethod = PaymentMethod;
-            item.Category = Category;
+            item.PaymentMethod = null;
+            item.Category = null;
 
             using MaizuruContext context = await factory.CreateDbContextAsync();
 
