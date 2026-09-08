@@ -66,7 +66,32 @@ namespace Maizuru.ViewModels
                     .Collection(c => c.Categories)
                     .LoadAsync();
 
-                category1.Categories.Add(new());
+                Stack<Category> stack = new();
+                stack.Push(category1);
+
+                bool toRoot = false;
+
+                for (int count = 0; stack.Count > 0; count++)
+                {
+                    if (count >= 3)
+                    {
+                        toRoot = true;
+                        break;
+                    }
+
+                    Category category2 = stack.Pop();
+                    await context.Entry(category2)
+                        .Reference(c => c.ParentCategory)
+                        .LoadAsync();
+
+                    if (category2.ParentCategory is Category)
+                        stack.Push(category2.ParentCategory);
+                }
+
+                if (!toRoot)
+                    category1.Categories.Add(new());
+                else
+                    context.Add(new Category());
             }
             await context.SaveChangesAsync();
             await LoadAsync();
