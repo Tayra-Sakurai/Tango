@@ -124,14 +124,12 @@ namespace Maizuru.ViewModels
                 if (value?.Id == category.Id)
                 {
                     category.ParentCategoryId = null;
-                    OnPropertyChanged();
                     ValidateProperty(null, nameof(ParentCategory));
                     return;
                 }
                 if (category.ParentCategoryId != value?.Id)
                 {
                     category.ParentCategoryId = value?.Id;
-                    OnPropertyChanged();
                 }
                 ValidateProperty(value, nameof(ParentCategory));
             }
