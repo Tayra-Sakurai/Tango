@@ -18,6 +18,7 @@ using Microsoft.Windows.Storage;
 using OpenAI.Embeddings;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,6 +26,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -58,14 +60,33 @@ namespace Tango
             _window = new MainWindow();
             _window.Activate();
 
-            if (_window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
-            {
-                presenter.Maximize();
-            }
+            Uri iconUri = new("ms-appx:///Assets/Icons/icon-copy-_1_.ico");
 
-            IDbContextFactory<MaizuruContext> factory = Ioc.Default.GetRequiredService<IDbContextFactory<MaizuruContext>>();
-            using MaizuruContext context = await factory.CreateDbContextAsync();
-            await context.Database.MigrateAsync();
+            StorageFile? storageFile = null;
+            try
+            {
+                storageFile = await StorageFile.GetFileFromApplicationUriAsync(iconUri);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                if (storageFile != null)
+                {
+                    _window.AppWindow.SetIcon(storageFile.Path);
+                }
+
+                if (_window.AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+                {
+                    presenter.Maximize();
+                }
+
+                IDbContextFactory<MaizuruContext> factory = Ioc.Default.GetRequiredService<IDbContextFactory<MaizuruContext>>();
+                using MaizuruContext context = await factory.CreateDbContextAsync();
+                await context.Database.MigrateAsync();
+            }
         }
 
         private static IServiceProvider GetService()
@@ -83,7 +104,7 @@ namespace Tango
                 .AsIEmbeddingGenerator());
             services.AddDbContextFactory<MaizuruContext>(
                 options => options
-                .UseSqlite($"Data Source={System.IO.Path.Join(ApplicationData.GetDefault().LocalFolder.Path, "Maizuru.db")}"));
+                .UseSqlite($"Data Source={System.IO.Path.Join(Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.Path, "Maizuru.db")}"));
             services.AddTransient<CategoriesViewModel>();
             services.AddTransient<CategoryViewModel>();
             services.AddTransient<PaymentMethodsViewModel>();
