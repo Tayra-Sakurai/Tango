@@ -7,6 +7,7 @@ using Maizuru.Contexts;
 using Maizuru.Messages;
 using Maizuru.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -62,6 +63,7 @@ namespace Maizuru.ViewModels
                 .ThenInclude(c => c.Categories)
                 .ThenInclude(c => c.Categories)
                 .Where(c => c.ParentCategoryId == null)
+                .AsNoTracking()
                 .AsAsyncEnumerable())
                 Categories.Add(category);
         }
@@ -72,11 +74,12 @@ namespace Maizuru.ViewModels
             if (HasErrors)
                 return;
 
-            category.ParentCategory = ParentCategory;
+            category.ParentCategory = null;
 
             using MaizuruContext context = await factory.CreateDbContextAsync();
 
             context.Update(category);
+
             await context.SaveChangesAsync();
         }
 

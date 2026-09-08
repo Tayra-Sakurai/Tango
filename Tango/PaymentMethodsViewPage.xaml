@@ -28,6 +28,7 @@
             AutoGenerateColumns="False"
             IsReadOnly="True"
             SelectionMode="Single"
+            SelectionUnit="Row"
             d:DataContext="{d:DesignInstance Type=models:PaymentMethod}"
             ItemsSource="{x:Bind viewModel.PaymentMethods}">
             <tv:TableView.Columns>
