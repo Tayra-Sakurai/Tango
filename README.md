@@ -5,7 +5,7 @@
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Tayra-Sakurai/Tango/test.yml)
 ![GitHub Release](https://img.shields.io/github/v/release/Tayra-Sakurai/Tango)
 
-Welcome to `Tango`. This is an application software to manage your finacial status easily.
+Welcome to `Tango`. This is an application software to manage your finantial status easily.
 
 ## License
 
