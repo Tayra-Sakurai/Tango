@@ -33,6 +33,7 @@
             SelectionMode="Single"
             SelectionUnit="Row"
             d:DataContext="{d:DesignInstance Type=models:Item}"
+            SelectedItem="{x:Bind viewModel.Item, Mode=TwoWay}"
             ItemsSource="{x:Bind viewModel.Items}">
             <tv:TableView.Columns>
                 <tv:TableViewNumberColumn x:Uid="IdColumn" Binding="{Binding Id}"/>
@@ -87,8 +88,7 @@
                             <Button
                                 x:Uid="RemoveConfirmButton"
                                 Style="{StaticResource AccentButtonStyle}"
-                                Command="{x:Bind viewModel.RemoveCommand}"
-                                CommandParameter="{x:Bind SuperTable.SelectedItem}"/>
+                                Command="{x:Bind viewModel.RemoveCommand}"/>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
@@ -98,8 +98,7 @@
                 <AppBarButton
                     Icon="More"
                     x:Uid="DetailButton"
-                    Command="{x:Bind viewModel.InvokeCommand}"
-                    CommandParameter="{Binding SelectedItem, ElementName=SuperTable}"/>
+                    Command="{x:Bind viewModel.InvokeCommand}"/>
 
                 <AppBarButton
                     Icon="Zoom"

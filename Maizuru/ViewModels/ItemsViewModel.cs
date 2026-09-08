@@ -50,6 +50,11 @@ namespace Maizuru.ViewModels
         [NotifyCanExecuteChangedFor(nameof(FilterCommand))]
         public partial PaymentMethod? PaymentMethod { get; set; }
 
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(InvokeCommand))]
+        [NotifyCanExecuteChangedFor(nameof(RemoveCommand))]
+        public partial Item? Item { get; set; }
+
         [RelayCommand(AllowConcurrentExecutions = false)]
         public async Task LoadAsync()
         {
@@ -108,36 +113,31 @@ namespace Maizuru.ViewModels
             await LoadAsync();
         }
 
-        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemove))]
-        private async Task RemoveAsync(object? param)
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanInvokeOrRemove))]
+        private async Task RemoveAsync()
         {
-            if (param is not Item item)
+            if (Item is null)
                 return;
 
             using MaizuruContext context = await dbContextFactory.CreateDbContextAsync();
 
-            context.Remove(item);
+            context.Remove(Item);
             await context.SaveChangesAsync();
             await LoadAsync();
         }
 
-        [RelayCommand(CanExecute = nameof(CanInvoke))]
-        private static void Invoke(Item? item)
+        [RelayCommand(CanExecute = nameof(CanInvokeOrRemove))]
+        private void Invoke()
         {
-            if (item == null)
+            if (Item == null)
                 return;
 
-            WeakReferenceMessenger.Default.Send(new ItemInvokedMessage(item));
+            WeakReferenceMessenger.Default.Send(new ItemInvokedMessage(Item));
         }
 
-        private static bool CanInvoke(Item? item)
+        private bool CanInvokeOrRemove()
         {
-            return item is not null;
-        }
-
-        private static bool CanRemove(object? param)
-        {
-            return param is Item;
+            return Item is not null;
         }
 
         [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanFilter))]

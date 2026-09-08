@@ -28,6 +28,11 @@ namespace Maizuru.ViewModels
         [ObservableProperty]
         public partial ObservableCollection<PaymentMethod> PaymentMethods { get; set; }
 
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(InvokeCommand))]
+        [NotifyCanExecuteChangedFor(nameof(RemoveCommand))]
+        public partial PaymentMethod? PaymentMethod { get; set; }
+
         [RelayCommand(AllowConcurrentExecutions = false)]
         public async Task LoadAsync()
         {
@@ -53,35 +58,30 @@ namespace Maizuru.ViewModels
             await LoadAsync();
         }
 
-        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemove))]
-        private async Task RemoveAsync(object? param)
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanInvokeOrRemove))]
+        private async Task RemoveAsync()
         {
-            if (param is not PaymentMethod paymentMethod)
+            if (PaymentMethod is null)
                 return;
 
             using MaizuruContext context = await factory.CreateDbContextAsync();
-            context.Remove(paymentMethod);
+            context.Remove(PaymentMethod);
             await context.SaveChangesAsync();
             await LoadAsync();
         }
 
-        private static bool CanInvoke(PaymentMethod? paymentMethod)
+        private bool CanInvokeOrRemove()
         {
-            return paymentMethod != null;
+            return PaymentMethod != null;
         }
 
-        private static bool CanRemove(object? paymentMethod)
+        [RelayCommand(CanExecute = nameof(CanInvokeOrRemove))]
+        private void Invoke()
         {
-            return paymentMethod is PaymentMethod;
-        }
-
-        [RelayCommand(CanExecute = nameof(CanInvoke))]
-        private static void Invoke(PaymentMethod? paymentMethod)
-        {
-            if (paymentMethod == null)
+            if (PaymentMethod == null)
                 return;
 
-            WeakReferenceMessenger.Default.Send(new PaymentMethodInvokedMessage(paymentMethod));
+            WeakReferenceMessenger.Default.Send(new PaymentMethodInvokedMessage(PaymentMethod));
         }
     }
 }

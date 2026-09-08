@@ -29,6 +29,7 @@
             IsReadOnly="True"
             SelectionMode="Single"
             SelectionUnit="Row"
+            SelectedItem="{x:Bind viewModel.PaymentMethod, Mode=TwoWay}"
             d:DataContext="{d:DesignInstance Type=models:PaymentMethod}"
             ItemsSource="{x:Bind viewModel.PaymentMethods}">
             <tv:TableView.Columns>
@@ -60,8 +61,7 @@
                             <Button
                                 x:Uid="RemoveConfirmButton"
                                 Style="{StaticResource AccentButtonStyle}"
-                                Command="{x:Bind viewModel.RemoveCommand}"
-                                CommandParameter="{x:Bind SuperTable.SelectedItem}"/>
+                                Command="{x:Bind viewModel.RemoveCommand}"/>
                         </StackPanel>
                     </Flyout>
                 </AppBarButton.Flyout>
@@ -69,8 +69,7 @@
             <AppBarButton
                 Icon="More"
                 x:Uid="DetailButton"
-                Command="{x:Bind viewModel.InvokeCommand}"
-                CommandParameter="{Binding SelectedItem, ElementName=SuperTable}"/>
+                Command="{x:Bind viewModel.InvokeCommand}"/>
         </CommandBar>
 
         <local:Copyright

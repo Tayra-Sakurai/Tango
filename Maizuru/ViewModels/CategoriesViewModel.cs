@@ -30,6 +30,11 @@ namespace Maizuru.ViewModels
         [ObservableProperty]
         public partial ObservableCollection<Category> Categories { get; set; }
 
+        [ObservableProperty]
+        [NotifyCanExecuteChangedFor(nameof(RemoveCommand))]
+        [NotifyCanExecuteChangedFor(nameof(InvokeCommand))]
+        public partial Category? Category { get; set; }
+
         [RelayCommand(AllowConcurrentExecutions = false)]
         public async Task LoadAsync()
         {
@@ -50,11 +55,11 @@ namespace Maizuru.ViewModels
         }
 
         [RelayCommand(AllowConcurrentExecutions = false)]
-        private async Task AddAsync(Category? category)
+        private async Task AddAsync()
         {
             using MaizuruContext context = await factory.CreateDbContextAsync();
 
-            if (category is not Category category1)
+            if (Category is not Category category1)
             {
                 Category category2 = new();
                 context.Add(category2);
@@ -97,33 +102,28 @@ namespace Maizuru.ViewModels
             await LoadAsync();
         }
 
-        [RelayCommand(CanExecute = nameof(CanInvoke))]
-        private static void Invoke(Category? category)
+        [RelayCommand(CanExecute = nameof(CanInvokeOrRemove))]
+        private void Invoke()
         {
-            if (category is null)
+            if (Category is null)
                 return;
 
-            WeakReferenceMessenger.Default.Send(new CategoryInvokedMessage(category));
+            WeakReferenceMessenger.Default.Send(new CategoryInvokedMessage(Category));
         }
         
-        private static bool CanInvoke(Category? category)
+        private bool CanInvokeOrRemove()
         {
-            return category is not null;
+            return Category is not null;
         }
 
-        private static bool CanRemove(object? param)
+        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanInvokeOrRemove))]
+        private async Task RemoveAsync()
         {
-            return param is Category;
-        }
-
-        [RelayCommand(AllowConcurrentExecutions = false, CanExecute = nameof(CanRemove))]
-        private async Task RemoveAsync(object? param)
-        {
-            if (param is not Category category)
+            if (Category is null)
                 return;
 
             using MaizuruContext context = await factory.CreateDbContextAsync();
-            context.Remove(category);
+            context.Remove(Category);
             await context.SaveChangesAsync();
             await LoadAsync();
         }

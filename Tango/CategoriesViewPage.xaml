@@ -20,6 +20,7 @@
         <TreeView
             Grid.Row="1"
             x:Name="CategoriesView"
+            SelectedItem="{x:Bind viewModel.Category, Mode=TwoWay}"
             ItemsSource="{x:Bind viewModel.Categories}"
             ItemTemplate="{StaticResource TreeViewCategoryTemplate}"/>
         <CommandBar
@@ -32,7 +33,6 @@
             <AppBarButton
                 Icon="Add"
                 Command="{x:Bind viewModel.AddCommand}"
-                CommandParameter="{Binding SelectedItem, ElementName=CategoriesView}"
                 x:Uid="AddButton"/>
             <AppBarButton
                 Icon="Delete"
@@ -46,7 +46,6 @@
                             <Button
                                 Style="{StaticResource AccentButtonStyle}"
                                 Command="{x:Bind viewModel.RemoveCommand}"
-                                CommandParameter="{x:Bind CategoriesView.SelectedItem}"
                                 x:Uid="RemoveConfirmButton"/>
                         </StackPanel>
                     </Flyout>
@@ -55,8 +54,7 @@
             <AppBarButton
                 Icon="More"
                 x:Uid="DetailButton"
-                Command="{x:Bind viewModel.InvokeCommand}"
-                CommandParameter="{Binding SelectedItem, ElementName=CategoriesView}"/>
+                Command="{x:Bind viewModel.InvokeCommand}"/>
         </CommandBar>
         <local:Copyright
             Grid.Row="3"/>
