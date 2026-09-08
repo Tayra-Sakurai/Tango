@@ -34,6 +34,9 @@
                             Header="{TemplateBinding Header}"
                             Value="{TemplateBinding Value}"
                             PlaceholderText="{TemplateBinding PlaceholderText}"
+                            AcceptsExpression="{TemplateBinding AcceptExpression}"
+                            SmallChange="{TemplateBinding SmallChange}"
+                            LargeChange="{TemplateBinding LargeChange}"
                             Name="Box"/>
                         <TextBlock
                             Style="{StaticResource CaptionTextBlockStyle}"

@@ -86,6 +86,9 @@
             x:Uid="IncomeBox"
             Value="{x:Bind viewModel.Income, Mode=TwoWay}"
             Property="Income"
+            AcceptExpression="True"
+            SmallChange="{x:Bind viewModel.SmallChange}"
+            LargeChange="1"
             NotifyDataErrorInfo="{x:Bind viewModel}"/>
 
         <te:ValidationNumberBox
@@ -94,6 +97,9 @@
             x:Uid="ExpenseBox"
             Value="{x:Bind viewModel.Expense, Mode=TwoWay}"
             Property="Expense"
+            AcceptExpression="True"
+            SmallChange="{x:Bind viewModel.SmallChange}"
+            LargeChange="1"
             NotifyDataErrorInfo="{x:Bind viewModel}"/>
 
         <CommandBar

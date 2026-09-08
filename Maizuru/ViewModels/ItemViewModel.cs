@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -289,6 +290,16 @@ namespace Maizuru.ViewModels
                 return new("You must set either income or expense.");
 
             return ValidationResult.Success;
+        }
+
+        public double SmallChange
+        {
+            get
+            {
+                CultureInfo culture = CultureInfo.CurrentCulture;
+                int digits = culture.NumberFormat.CurrencyDecimalDigits;
+                return Math.Pow(10, -digits);
+            }
         }
     }
 }

@@ -132,6 +132,42 @@ namespace Tango.TemplatedElements
             typeof(ValidationNumberBox),
             new(default, OnNotifyDataErrorInfoPropertyChanged));
 
+        public double SmallChange
+        {
+            get => (double)GetValue(SmallChangeProperty);
+            set => SetValue(SmallChangeProperty, value);
+        }
+
+        public static DependencyProperty SmallChangeProperty { get; } = DependencyProperty.Register(
+            nameof(SmallChange),
+            typeof(double),
+            typeof(ValidationNumberBox),
+            new(1d));
+
+        public double LargeChange
+        {
+            get => (double)GetValue(LargeChangeProperty);
+            set => SetValue(LargeChangeProperty, value);
+        }
+
+        public static DependencyProperty LargeChangeProperty { get; } = DependencyProperty.Register(
+            nameof(LargeChange),
+            typeof(double),
+            typeof(ValidationNumberBox),
+            new(10d));
+
+        public bool AcceptExpression
+        {
+            get => (bool)GetValue(AcceptExpressionProperty);
+            set => SetValue(AcceptExpressionProperty, value);
+        }
+
+        public static DependencyProperty AcceptExpressionProperty { get; } = DependencyProperty.Register(
+            nameof(AcceptExpression),
+            typeof(bool),
+            typeof(ValidationNumberBox),
+            new(false));
+
         private void ShowValidationResult()
         {
             if (NotifyDataErrorInfo is not INotifyDataErrorInfo ||
