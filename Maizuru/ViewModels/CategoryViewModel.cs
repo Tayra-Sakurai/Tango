@@ -42,6 +42,9 @@ namespace Maizuru.ViewModels
         public void LoadExisitngValue(Category category)
         {
             this.category = category;
+            this.category.ParentCategory = null;
+            this.category.Items.Clear();
+            this.category.Categories.Clear();
 
             OnPropertyChanged(nameof(Name));
             OnPropertyChanged(nameof(Description));
@@ -129,8 +132,8 @@ namespace Maizuru.ViewModels
                 {
                     category.ParentCategoryId = value?.Id;
                     OnPropertyChanged();
-                    ValidateProperty(value, nameof(ParentCategory));
                 }
+                ValidateProperty(value, nameof(ParentCategory));
             }
         }
 
