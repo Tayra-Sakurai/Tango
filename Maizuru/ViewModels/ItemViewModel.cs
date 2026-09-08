@@ -222,11 +222,12 @@ namespace Maizuru.ViewModels
                 if (value is not null)
                 {
                     if (value.Id != item.CategoryId)
+                    {
                         item.CategoryId = value.Id;
-
-                    OnPropertyChanged();
+                        OnPropertyChanged();
+                    }
                 }
-                ValidateProperty(value);
+                ValidateProperty(value, nameof(Category));
             }
         }
 
@@ -239,10 +240,12 @@ namespace Maizuru.ViewModels
                 if (value is not null)
                 {
                     if (value.Id != item.PaymentMethodId)
+                    {
                         item.PaymentMethodId = value.Id;
-                    OnPropertyChanged();
+                        OnPropertyChanged();
+                    }
                 }
-                ValidateProperty(value);
+                ValidateProperty(value, nameof(PaymentMethod));
             }
         }
 

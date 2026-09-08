@@ -52,6 +52,7 @@
             Grid.Row="2"/>
 
         <ComboBox
+            x:Uid="PaymentMethodBox"
             ItemsSource="{x:Bind viewModel.PaymentMethods}"
             SelectedItem="{x:Bind viewModel.PaymentMethod, Mode=TwoWay}"
             Grid.Row="3"
