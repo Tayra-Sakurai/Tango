@@ -6,7 +6,7 @@ on:
         required: true
         type: string
         description: Set a tag.
-      previous-tag:
+      previous_tag:
         required: false
         type: string
         description: Select the previous tag.
@@ -68,7 +68,7 @@ jobs:
             ${{ env.SOLUTION_NAME }}/AppPackages/**/*.msix
             ${{ env.SOLUTION_NAME }}/AppPackages/**/*.msixbundle
           tag_name: ${{ inputs.tag }}
-          previous_tag: ${{inputs.previous-tag }}
+          previous_tag: ${{ inputs.previous_tag }}
           make_latest: true
           body: ${{ inputs.release_notes }}
           draft: true
