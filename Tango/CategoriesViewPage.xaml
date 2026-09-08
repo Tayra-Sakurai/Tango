@@ -32,6 +32,7 @@
             <AppBarButton
                 Icon="Add"
                 Command="{x:Bind viewModel.AddCommand}"
+                CommandParameter="{Binding SelectedItem, ElementName=CategoriesView}"
                 x:Uid="AddButton"/>
             <AppBarButton
                 Icon="Delete"
