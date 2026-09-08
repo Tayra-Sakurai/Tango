@@ -234,6 +234,12 @@
   <data name="SaveButton.Label" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="SearchBox.Header" xml:space="preserve">
+    <value>Free phrase</value>
+  </data>
+  <data name="SearchBox.PlaceholderText" xml:space="preserve">
+    <value>Type phrase here</value>
+  </data>
   <data name="SyncButton.Label" xml:space="preserve">
     <value>Sync</value>
   </data>

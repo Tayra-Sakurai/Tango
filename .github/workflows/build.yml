@@ -71,4 +71,5 @@ jobs:
           previous_tag: ${{inputs.previous-tag }}
           make_latest: true
           body: ${{ inputs.release_notes }}
+          draft: true
     
