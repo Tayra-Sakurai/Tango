@@ -54,7 +54,7 @@ namespace Tango
 
             DateTimeOffset currentDate = DateTimeOffset.Now.Date;
             DateTimeOffset deliveryTime = currentDate + new TimeSpan(18, 0, 0);
-            if (deliveryTime > DateTimeOffset.Now)
+            if (deliveryTime < DateTimeOffset.Now)
                 deliveryTime += new TimeSpan(1, 0, 0, 0);
 
             ScheduledToastNotification scheduledToastNotification = new(xmlDocument, deliveryTime);
