@@ -158,7 +158,6 @@ namespace Maizuru.ViewModels
             {
                 DateTimeOffset dateOnly = value - value.TimeOfDay;
                 SetDate(item, value.Date);
-                OnPropertyChanged();
                 ValidateProperty(dateOnly, nameof(Date));
             }
         }
@@ -170,7 +169,6 @@ namespace Maizuru.ViewModels
             set
             {
                 SetTime(item, value);
-                OnPropertyChanged();
                 ValidateProperty(value, nameof(Time));
             }
         }
