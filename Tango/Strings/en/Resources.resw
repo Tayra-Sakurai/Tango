@@ -201,6 +201,9 @@
   <data name="NameColumn.Header" xml:space="preserve">
     <value>Name</value>
   </data>
+  <data name="Notification.Text" xml:space="preserve">
+    <value>Let's make your today's diary.</value>
+  </data>
   <data name="NullCategoryTreeViewItem.Content" xml:space="preserve">
     <value>No category</value>
   </data>

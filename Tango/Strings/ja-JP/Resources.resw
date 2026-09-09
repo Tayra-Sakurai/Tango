@@ -201,6 +201,9 @@
   <data name="NameColumn.Header" xml:space="preserve">
     <value>名称</value>
   </data>
+  <data name="Notification.Text" xml:space="preserve">
+    <value>今日の記録を付けよう．</value>
+  </data>
   <data name="NullCategoryTreeViewItem.Content" xml:space="preserve">
     <value>カテゴリが選択されていません。</value>
   </data>

@@ -7,13 +7,17 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Microsoft.Windows.ApplicationModel.Resources;
+using Microsoft.Windows.AppNotifications.Builder;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Notifications;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -35,6 +39,27 @@ namespace Tango
             BaseNavigation.ItemInvoked += BaseNavigation_ItemInvoked;
             MainFrame.Navigated += MainFrame_Navigated;
             BaseNavigation.BackRequested += BaseNavigation_BackRequested;
+
+            ResourceLoader resourceLoader = new();
+
+            string payload = new AppNotificationBuilder()
+                .AddArgument("action", "Foreground")
+                .AddArgument("page", typeof(ItemsViewPage).AssemblyQualifiedName)
+                .AddText(resourceLoader.GetString("Notification/Text"))
+                .BuildNotification()
+                .Payload;
+
+            XmlDocument xmlDocument = new();
+            xmlDocument.LoadXml(payload);
+
+            DateTimeOffset currentDate = DateTimeOffset.Now.Date;
+            DateTimeOffset deliveryTime = currentDate + new TimeSpan(18, 0, 0);
+            if (deliveryTime > DateTimeOffset.Now)
+                deliveryTime += new TimeSpan(1, 0, 0, 0);
+
+            ScheduledToastNotification scheduledToastNotification = new(xmlDocument, deliveryTime);
+
+            ToastNotificationManager.CreateToastNotifier().AddToSchedule(scheduledToastNotification);
         }
 
         private void BaseNavigation_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args)
@@ -114,6 +139,17 @@ namespace Tango
                         Glyph = "\uE8C7",
                     },
                 }];
+        }
+
+        public void TakeToNotificationNavigatedPage(string pageName)
+        {
+            DispatcherQueue.TryEnqueue(() =>
+            {
+                if (pageName == "(none)")
+                    MainFrame.Navigate(typeof(ItemsViewPage));
+                else
+                    MainFrame.Navigate(Type.GetType(pageName));
+            });
         }
     }
 }

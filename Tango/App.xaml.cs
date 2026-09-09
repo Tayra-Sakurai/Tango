@@ -14,6 +14,8 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Microsoft.UI.Xaml.Shapes;
+using Microsoft.Windows.AppLifecycle;
+using Microsoft.Windows.AppNotifications;
 using Microsoft.Windows.Storage;
 using OpenAI.Embeddings;
 using System;
@@ -22,6 +24,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -58,7 +61,79 @@ namespace Tango
         protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             _window = new MainWindow();
-            _window.Activate();
+
+            AppNotificationManager.Default.NotificationInvoked += Default_NotificationInvoked;
+            AppNotificationManager.Default.Register();
+
+            AppActivationArguments activatedEventArgs = Microsoft.Windows.AppLifecycle.AppInstance.GetCurrent().GetActivatedEventArgs();
+
+            if (activatedEventArgs.Kind == ExtendedActivationKind.AppNotification)
+            {
+                AppNotificationActivatedEventArgs appNotificationActivatedEventArgs = (AppNotificationActivatedEventArgs)activatedEventArgs.Data;
+                await HandleNotification(appNotificationActivatedEventArgs);
+            }
+            else
+            {
+                await WindowActivate();
+            }
+        }
+
+        private async void Default_NotificationInvoked(AppNotificationManager sender, AppNotificationActivatedEventArgs args)
+        {
+            await HandleNotification(args);
+        }
+
+        private static IServiceProvider GetService()
+        {
+            ServiceCollection services = new ServiceCollection();
+
+            services.AddEmbeddingGenerator(
+                new EmbeddingClient(
+                    model: "models/gemini-embedding-2",
+                    credential: new System.ClientModel.ApiKeyCredential(Environment.GetEnvironmentVariable("GOOGLE_API_KEY") ?? throw new NotImplementedException()),
+                    options: new()
+                    {
+                        Endpoint = new("https://generativelanguage.googleapis.com/v1beta/openai"),
+                    })
+                .AsIEmbeddingGenerator());
+            services.AddDbContextFactory<MaizuruContext>(
+                options => options
+                .UseSqlite($"Data Source={System.IO.Path.Join(Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.Path, "Maizuru.db")}"));
+            services.AddTransient<CategoriesViewModel>();
+            services.AddTransient<CategoryViewModel>();
+            services.AddTransient<PaymentMethodsViewModel>();
+            services.AddTransient<PaymentMethodViewModel>();
+            services.AddTransient<ItemsViewModel>();
+            services.AddTransient<ItemViewModel>();
+
+            return services.BuildServiceProvider();
+        }
+
+        private async Task HandleNotification(AppNotificationActivatedEventArgs args)
+        {
+            string action = args.Arguments.ContainsKey("action") ? args.Arguments["action"] : "(none)";
+            string pageName = args.Arguments.ContainsKey("page") ? args.Arguments["page"] : "(none)";
+
+            _window!.DispatcherQueue.TryEnqueue(async () =>
+            {
+                switch (action)
+                {
+                    case "Background":
+                        if (!_window.Visible)
+                            Application.Current.Exit();
+                        break;
+
+                    default:
+                        await WindowActivate();
+                        ((MainWindow)_window).TakeToNotificationNavigatedPage(pageName);
+                        break;
+                }
+            });
+        }
+
+        private async Task WindowActivate()
+        {
+            _window!.Activate();
 
             Uri iconUri = new("ms-appx:///Assets/Icons/icon-copy-_1_.ico");
 
@@ -87,32 +162,6 @@ namespace Tango
                 using MaizuruContext context = await factory.CreateDbContextAsync();
                 await context.Database.MigrateAsync();
             }
-        }
-
-        private static IServiceProvider GetService()
-        {
-            ServiceCollection services = new ServiceCollection();
-
-            services.AddEmbeddingGenerator(
-                new EmbeddingClient(
-                    model: "models/gemini-embedding-2",
-                    credential: new System.ClientModel.ApiKeyCredential(Environment.GetEnvironmentVariable("GOOGLE_API_KEY") ?? throw new NotImplementedException()),
-                    options: new()
-                    {
-                        Endpoint = new("https://generativelanguage.googleapis.com/v1beta/openai"),
-                    })
-                .AsIEmbeddingGenerator());
-            services.AddDbContextFactory<MaizuruContext>(
-                options => options
-                .UseSqlite($"Data Source={System.IO.Path.Join(Microsoft.Windows.Storage.ApplicationData.GetDefault().LocalFolder.Path, "Maizuru.db")}"));
-            services.AddTransient<CategoriesViewModel>();
-            services.AddTransient<CategoryViewModel>();
-            services.AddTransient<PaymentMethodsViewModel>();
-            services.AddTransient<PaymentMethodViewModel>();
-            services.AddTransient<ItemsViewModel>();
-            services.AddTransient<ItemViewModel>();
-
-            return services.BuildServiceProvider();
         }
     }
 }

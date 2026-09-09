@@ -6,12 +6,14 @@
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
   xmlns:systemai="http://schemas.microsoft.com/appx/manifest/systemai/windows10"
+  xmlns:com="http://schemas.microsoft.com/appx/manifest/com/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   IgnorableNamespaces="uap rescap systemai">
 
   <Identity
     Name="c94ee6e7-eeab-4f58-926c-438310fc55a1"
     Publisher="CN=taira"
-    Version="1.1.6.0" />
+    Version="1.2.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="c94ee6e7-eeab-4f58-926c-438310fc55a1" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -49,6 +51,20 @@
         </uap:DefaultTile >
         <uap:SplashScreen Image="Assets\Images\SplashScreen.png" />
       </uap:VisualElements>
+
+      <Extensions>
+        <desktop:Extension Category="windows.toastNotificationActivation">
+          <desktop:ToastNotificationActivation ToastActivatorCLSID="4BDD5D01-883F-45A2-B90D-E9506F50BDFD"/>
+        </desktop:Extension>
+
+        <com:Extension Category="windows.comServer">
+          <com:ComServer>
+            <com:ExeServer Executable="Tango.exe" DisplayName="Tango" Arguments="----AppNotificationActivated:">
+              <com:Class Id="4BDD5D01-883F-45A2-B90D-E9506F50BDFD"/>
+            </com:ExeServer>
+          </com:ComServer>
+        </com:Extension>
+      </Extensions>
     </Application>
   </Applications>
 
