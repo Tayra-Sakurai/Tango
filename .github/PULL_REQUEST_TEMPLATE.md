@@ -11,7 +11,7 @@ Abstract description of your pull request in one paragraph.
 Issue fixing summary.
 
 <!--Please add the issue number following the #-->
-- [ ] Issue #
+- [ ] Fixed Issue #
 
 ## Checklist
 
