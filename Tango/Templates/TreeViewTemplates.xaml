@@ -9,6 +9,7 @@
         x:Key="TreeViewCategoryTemplate"
         x:DataType="models:Category">
         <TreeViewItem
+            IsExpanded="True"
             ItemsSource="{Binding Categories}"
             Content="{Binding Name}"/>
     </DataTemplate>
