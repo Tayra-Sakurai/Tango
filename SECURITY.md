@@ -9,7 +9,8 @@ This application's secutity updates are supported only for the newest version.
 | Version | Supported |
 |:--------|:---------:|
 | 1.0     | **No**    |
-| 1.1     | **Yes**   |
+| 1.1     | **No**    |
+| 1.2     | **Yes**   |
 
 ## How to Report Vulnerabilities
 
