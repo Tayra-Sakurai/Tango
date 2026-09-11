@@ -156,9 +156,13 @@ namespace Maizuru.ViewModels
             get => item.DateTimeOffset - item.DateTimeOffset.TimeOfDay;
             set
             {
-                DateTimeOffset dateOnly = value - value.TimeOfDay;
-                SetDate(item, value.Date);
-                ValidateProperty(dateOnly, nameof(Date));
+                DateTimeOffset dateOnly = item.DateTimeOffset - item.DateTimeOffset.TimeOfDay;
+                if (dateOnly != (value - value.TimeOfDay))
+                {
+                    SetDate(item, value.Date);
+                    OnPropertyChanged(nameof(Date));
+                }
+                ValidateProperty(value.Date);
             }
         }
 
@@ -168,8 +172,12 @@ namespace Maizuru.ViewModels
             get => item.DateTimeOffset.TimeOfDay;
             set
             {
-                SetTime(item, value);
-                ValidateProperty(value, nameof(Time));
+                if (item.DateTimeOffset.TimeOfDay != value)
+                {
+                    SetTime(item, value);
+                    OnPropertyChanged();
+                }
+                ValidateProperty(value);
             }
         }
 
@@ -178,7 +186,7 @@ namespace Maizuru.ViewModels
             TimeSpan timeOfDay = model.DateTimeOffset.TimeOfDay;
             date -= date.TimeOfDay;
             date += timeOfDay;
-            model.DateTimeOffset = new(date, DateTimeOffset.Now.Offset);
+            model.DateTimeOffset = date;
         }
 
         private static void SetTime(Item model, TimeSpan timeOfDay)

@@ -130,6 +130,7 @@ namespace Maizuru.ViewModels
                 if (category.ParentCategoryId != value?.Id)
                 {
                     category.ParentCategoryId = value?.Id;
+                    OnPropertyChanged();
                 }
                 ValidateProperty(value, nameof(ParentCategory));
             }

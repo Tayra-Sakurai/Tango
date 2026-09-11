@@ -42,16 +42,33 @@ namespace Maizuru.ViewModels
 
             Categories.Clear();
 
+            Stack<Category> stack = new();
+            HashSet<int> idSet = [];
+
             await foreach (
                 Category category in
                 context.Categories
                 .Where(c => c.ParentCategoryId == null)
                 .Include(c => c.Categories)
-                .ThenInclude(c => c.Categories)
-                .ThenInclude(c => c.Categories)
-                .ThenInclude(c => c.Categories)
                 .AsAsyncEnumerable())
+            {
                 Categories.Add(category);
+                stack.Push(category);
+                while (stack.Count > 0)
+                {
+                    Category category1 = stack.Pop();
+                    idSet.Add(category1.Id);
+
+                    await context.Entry(category1)
+                        .Collection(c => c.Categories)
+                        .LoadAsync();
+                    foreach (
+                        Category category2 in
+                        category1.Categories)
+                        if (!idSet.Contains(category2.Id))
+                            stack.Push(category2);
+                }
+            }
         }
 
         [RelayCommand(AllowConcurrentExecutions = false)]
