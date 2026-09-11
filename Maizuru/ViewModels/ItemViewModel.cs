@@ -162,7 +162,7 @@ namespace Maizuru.ViewModels
                     SetDate(item, value.Date);
                     OnPropertyChanged(nameof(Date));
                 }
-                ValidateProperty(value.Date);
+                ValidateProperty(new DateTimeOffset(value.Date));
             }
         }
 
