@@ -172,15 +172,18 @@ namespace Maizuru.ViewModels
         }
 
         [CustomValidation(typeof(ItemViewModel), nameof(ValidateTime))]
-        public TimeSpan Time
+        public TimeSpan? Time
         {
             get => item.DateTimeOffset.TimeOfDay;
             set
             {
-                if (item.DateTimeOffset.TimeOfDay != value)
+                if (value is TimeSpan time)
                 {
-                    SetTime(item, value);
-                    OnPropertyChanged();
+                    if (time != item.DateTimeOffset.TimeOfDay)
+                    {
+                        SetTime(item, time);
+                        OnPropertyChanged();
+                    }
                 }
                 ValidateProperty(value);
             }
@@ -206,7 +209,7 @@ namespace Maizuru.ViewModels
             if (dateTimeOffset is DateTimeOffset dateTimeOffset1)
             {
                 dateTimeOffset1 -= dateTimeOffset1.TimeOfDay;
-                dateTimeOffset1 += viewModel.Time;
+                dateTimeOffset1 += viewModel.item.DateTimeOffset.TimeOfDay;
 
                 if (dateTimeOffset1 > DateTimeOffset.Now)
                     return new("The time of trade must be in the past.");
@@ -216,16 +219,21 @@ namespace Maizuru.ViewModels
             return new("The date must be selected.");
         }
 
-        public static ValidationResult? ValidateTime(TimeSpan value, ValidationContext context)
+        public static ValidationResult? ValidateTime(TimeSpan? value, ValidationContext context)
         {
-            ItemViewModel itemViewModel = (ItemViewModel)context.ObjectInstance;
-            DateTimeOffset dateTimeOffset = itemViewModel.Date - itemViewModel.Date.TimeOfDay;
-            dateTimeOffset += value;
+            if (value is TimeSpan timeSpan)
+            {
+                ItemViewModel itemViewModel = (ItemViewModel)context.ObjectInstance;
+                DateTimeOffset dateTimeOffset = itemViewModel.item.DateTimeOffset - itemViewModel.item.DateTimeOffset.TimeOfDay;
+                dateTimeOffset += timeSpan;
 
-            if (dateTimeOffset > DateTimeOffset.Now)
-                return new("The time of trade must be in the past.");
+                if (dateTimeOffset > DateTimeOffset.Now)
+                    return new("The time of trade must be in the past.");
 
-            return ValidationResult.Success;
+                return ValidationResult.Success;
+            }
+
+            return new("The time must be selected.");
         }
 
         [Required]
@@ -306,7 +314,7 @@ namespace Maizuru.ViewModels
             return ValidationResult.Success;
         }
 
-        public double SmallChange
+        public static double SmallChange
         {
             get
             {
