@@ -172,7 +172,7 @@ namespace Maizuru.ViewModels
         }
 
         [CustomValidation(typeof(ItemViewModel), nameof(ValidateTime))]
-        public TimeSpan? Time
+        public TimeSpan Time
         {
             get => item.DateTimeOffset.TimeOfDay;
             set
@@ -219,7 +219,7 @@ namespace Maizuru.ViewModels
             return new("The date must be selected.");
         }
 
-        public static ValidationResult? ValidateTime(TimeSpan? value, ValidationContext context)
+        public static ValidationResult? ValidateTime(TimeSpan value, ValidationContext context)
         {
             if (value is TimeSpan timeSpan)
             {
@@ -314,7 +314,7 @@ namespace Maizuru.ViewModels
             return ValidationResult.Success;
         }
 
-        public static double SmallChange
+        public double SmallChange
         {
             get
             {
