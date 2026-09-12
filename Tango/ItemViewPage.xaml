@@ -69,6 +69,8 @@
 
         <te:ValidationTextBox
             x:Uid="NameBox"
+            Property="Name"
+            NotifyDataErrorInfo="{x:Bind viewModel}"
             Text="{x:Bind viewModel.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             Grid.Row="4"
             Grid.ColumnSpan="4"/>
