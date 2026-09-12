@@ -151,18 +151,23 @@ namespace Maizuru.ViewModels
         }
 
         [CustomValidation(typeof(ItemViewModel), nameof(ValidateDate))]
-        public DateTimeOffset Date
+        public DateTimeOffset? Date
         {
             get => item.DateTimeOffset - item.DateTimeOffset.TimeOfDay;
             set
             {
-                DateTimeOffset dateOnly = item.DateTimeOffset - item.DateTimeOffset.TimeOfDay;
-                if (dateOnly != (value - value.TimeOfDay))
+                if (value is DateTimeOffset date)
                 {
-                    SetDate(item, value.Date);
-                    OnPropertyChanged(nameof(Date));
+                    DateTimeOffset dateOnly = item.DateTimeOffset - item.DateTimeOffset.TimeOfDay;
+                    if (dateOnly != (date - date.TimeOfDay))
+                    {
+                        SetDate(item, date.Date);
+                        OnPropertyChanged();
+                    }
+                    ValidateProperty(new DateTimeOffset(date.Date));
                 }
-                ValidateProperty(new DateTimeOffset(value.Date));
+                else
+                    ValidateProperty(value);
             }
         }
 
@@ -195,17 +200,20 @@ namespace Maizuru.ViewModels
             model.DateTimeOffset += timeOfDay;
         }
 
-        public static ValidationResult? ValidateDate(DateTimeOffset dateTimeOffset, ValidationContext context)
+        public static ValidationResult? ValidateDate(DateTimeOffset? dateTimeOffset, ValidationContext context)
         {
             ItemViewModel viewModel = (ItemViewModel)context.ObjectInstance;
-            DateTimeOffset dateTimeOffset1 = dateTimeOffset;
-            dateTimeOffset1 -= dateTimeOffset1.TimeOfDay;
-            dateTimeOffset1 += viewModel.Time;
+            if (dateTimeOffset is DateTimeOffset dateTimeOffset1)
+            {
+                dateTimeOffset1 -= dateTimeOffset1.TimeOfDay;
+                dateTimeOffset1 += viewModel.Time;
 
-            if (dateTimeOffset1 > DateTimeOffset.Now)
-                return new("The time of trade must be in the past.");
+                if (dateTimeOffset1 > DateTimeOffset.Now)
+                    return new("The time of trade must be in the past.");
 
-            return ValidationResult.Success;
+                return ValidationResult.Success;
+            }
+            return new("The date must be selected.");
         }
 
         public static ValidationResult? ValidateTime(TimeSpan value, ValidationContext context)
