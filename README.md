@@ -4,6 +4,8 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/Tayra-Sakurai/Tango)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/Tayra-Sakurai/Tango/test.yml)
 ![GitHub Release](https://img.shields.io/github/v/release/Tayra-Sakurai/Tango)
+![GitHub Issues](https://img.shields.io/github/issues/Tayra-Sakurai/Tango)
+![GitHub Issues](https://img.shields.io/github/issues-closed/Tayra-Sakurai/Tango)
 
 Welcome to `Tango`. This is an application software to manage your finantial status easily.
 
