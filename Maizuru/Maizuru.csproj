@@ -10,6 +10,15 @@
     <PackageLicenseExpression>GPL-3.0-or-later</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <Nullable>enable</Nullable>
+    <Version>1.2.4</Version>
+    <Authors>Tayra Sakurai</Authors>
+    <Copyright>Copyright (C) 2026 Tayra Sakurai</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/Tayra-Sakurai/Tango</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Entity Framework Core;SQLite;Database;Finance;Database Migration;SQL;C#;.NET;Windows App SDK</PackageTags>
+    <PackageReleaseNotes>Bugfixes.</PackageReleaseNotes>
+    <NeutralLanguage>ja-JP</NeutralLanguage>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
@@ -27,5 +36,11 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Maizuru.Test" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>

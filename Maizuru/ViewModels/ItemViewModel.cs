@@ -165,9 +165,13 @@ namespace Maizuru.ViewModels
                         OnPropertyChanged();
                     }
                     ValidateProperty(new DateTimeOffset(date.Date));
+                    ValidateProperty(Time, nameof(Time));
                 }
                 else
+                {
                     ValidateProperty(value);
+                    ValidateProperty(Time, nameof(Time));
+                }
             }
         }
 
@@ -186,6 +190,7 @@ namespace Maizuru.ViewModels
                     }
                 }
                 ValidateProperty(value);
+                ValidateProperty(Date, nameof(Date));
             }
         }
 
