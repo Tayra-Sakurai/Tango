@@ -21,7 +21,9 @@
     <None Remove="ItemViewPage.xaml" />
     <None Remove="PaymentMethodsViewPage.xaml" />
     <None Remove="PaymentMethodViewPage.xaml" />
+    <None Remove="SettingsPage.xaml" />
     <None Remove="Templates\ComboBoxTemplates.xaml" />
+    <None Remove="Templates\SettingViewResourceDictionary.xaml" />
     <None Remove="Templates\TreeViewTemplates.xaml" />
   </ItemGroup>
 
@@ -61,6 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Maizuru\Maizuru.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Templates\SettingViewResourceDictionary.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ItemViewPage.xaml">
